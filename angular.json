@@ -2,7 +2,124 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "",
-  "projects": {},
+  "projects": {
+    "angular7": {
+      "root": "apps/angular7/",
+      "sourceRoot": "apps/angular7/src",
+      "projectType": "application",
+      "prefix": "hybrid-poc",
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/angular7",
+            "index": "apps/angular7/src/index.html",
+            "main": "apps/angular7/src/main.ts",
+            "polyfills": "apps/angular7/src/polyfills.ts",
+            "tsConfig": "apps/angular7/tsconfig.app.json",
+            "assets": [
+              "apps/angular7/src/favicon.ico",
+              "apps/angular7/src/assets"
+            ],
+            "styles": ["apps/angular7/src/styles.scss"],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/angular7/src/environments/environment.ts",
+                  "with": "apps/angular7/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "angular7:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "angular7:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "angular7:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/angular7/tsconfig.app.json",
+              "apps/angular7/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/angular7/jest.config.js",
+            "tsConfig": "apps/angular7/tsconfig.spec.json",
+            "setupFile": "apps/angular7/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "angular7-e2e": {
+      "root": "apps/angular7-e2e",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/angular7-e2e/protractor.conf.js",
+            "devServerTarget": "angular7:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "angular7:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/angular7-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "warnings": {
       "typescriptMismatch": false,
@@ -17,5 +134,6 @@
     "@nrwl/schematics:library": {
       "style": "scss"
     }
-  }
+  },
+  "defaultProject": "angular7"
 }
