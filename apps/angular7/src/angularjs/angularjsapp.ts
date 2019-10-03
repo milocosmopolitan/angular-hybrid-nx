@@ -1,8 +1,6 @@
 import 'angular';
 import 'angular-ui-router';
-// import './test-component/test.component';
 
-import 'angular';
 declare const angular: any;
 
 export const module = angular.module('AngularJSApp', ['ui.router']);
